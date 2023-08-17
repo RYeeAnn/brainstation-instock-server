@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5050;
 app.use(cors());
 app.use(express.json());
 app.use("/warehouses", warehouseRoute);
-app.use("/inventory", inventoryRoute);
+app.use("/inventories", inventoryRoute);
 
 app.get("/", (req, res) => {
   console.log("Made it to the server!!");
