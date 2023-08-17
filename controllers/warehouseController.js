@@ -25,6 +25,28 @@ const index = (_req, res) => {
 //     });
 // };
 
+const createWarehouse = (req, res) => {
+
+  knex('warehouses')
+    .insert({
+      warehouse_name: req.body.warehouse_name,
+      address: req.body.address,
+      city: req.body.city,
+      country: req.body.country,
+      contact_name: req.body.contact_name,
+      contact_position: req.body.contact_position,
+      contact_phone: req.body.contact_phone,
+      contact_email: req.body.contact_email,
+    })
+    .then(() => {
+      res.json({ message: 'Warehouse created successfully' });
+    })
+    .catch((error) => {
+      console.error('Error creating warehouse:', error);
+      res.status(500).json({ error: 'An error occurred while creating the warehouse' });
+    });
+};
+
 const removeWarehouse = (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
@@ -46,5 +68,6 @@ const removeWarehouse = (req, res) => {
 module.exports = {
   index,
   // getSingleWarehouse,
+  createWarehouse,
   removeWarehouse,
 };

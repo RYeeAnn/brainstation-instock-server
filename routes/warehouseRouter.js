@@ -5,10 +5,7 @@ const warehouseController = require("../controllers/warehouseController");
 router
   .route("/")
   .get(warehouseController.index)
-  .post((req, res) => {
-    console.log("Post on warehouse");
-    res.send("Post on warehouse");
-  });
+  .post(warehouseController.createWarehouse);
 
 router
   .route("/:id")
@@ -17,6 +14,7 @@ router
   //   console.log("Post single warehouse");
   //   res.send("Post single warehouse");
   // })
+  
   .delete(warehouseController.removeWarehouse);
 
 module.exports = router;
