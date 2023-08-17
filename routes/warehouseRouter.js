@@ -10,12 +10,13 @@ router
     res.send("Post on warehouse");
   });
 
-// router
-//   .route("/:id")
-//   .get(warehouseController.getSingleWarehouse)
-//   .post((req, res) => {
-//     console.log("Post single warehouse");
-//     res.send("Post single warehouse");
-//   });
+router
+  .route("/:id")
+  // .get(warehouseController.getSingleWarehouse)
+  // .post((req, res) => {
+  //   console.log("Post single warehouse");
+  //   res.send("Post single warehouse");
+  // })
+  .delete(warehouseController.removeWarehouse);
 
 module.exports = router;
