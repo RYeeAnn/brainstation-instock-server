@@ -10,7 +10,4 @@ router
     res.send("Post on inventory");
   });
 
-  router.get("/", inventoryController.getAllInventory);
-
-
 module.exports = router;
