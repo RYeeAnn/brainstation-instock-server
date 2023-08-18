@@ -26,8 +26,7 @@ const index = (_req, res) => {
 // };
 
 const createWarehouse = (req, res) => {
-
-  knex('warehouses')
+  knex("warehouses")
     .insert({
       warehouse_name: req.body.warehouse_name,
       address: req.body.address,
@@ -39,11 +38,13 @@ const createWarehouse = (req, res) => {
       contact_email: req.body.contact_email,
     })
     .then(() => {
-      res.json({ message: 'Warehouse created successfully' });
+      res.json({ message: "Warehouse created successfully" });
     })
     .catch((error) => {
-      console.error('Error creating warehouse:', error);
-      res.status(500).json({ error: 'An error occurred while creating the warehouse' });
+      console.error("Error creating warehouse:", error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the warehouse" });
     });
 };
 
