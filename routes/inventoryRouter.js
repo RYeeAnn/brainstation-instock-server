@@ -8,6 +8,10 @@ router
   .post((req, res) => {
     console.log("Post on inventory");
     res.send("Post on inventory");
-  });
+  })
+
+router
+  .route("/:id")
+  .get(inventoryController.getSingleInventory);
 
 module.exports = router;

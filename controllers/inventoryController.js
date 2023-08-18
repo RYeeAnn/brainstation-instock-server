@@ -9,8 +9,24 @@ const getAllInventory = (req, res) => {
         res.status(400).send(`Error retrieving Inventory: ${err}`)
       );
   };
-  
 
-module.exports = {
-  getAllInventory,
-};
+  const getSingleInventory = (req, res) => {
+    const inventoryId = req.params.id;
+  
+    knex("inventories")
+      .where("id", inventoryId)
+      .first()
+      .then((inventory) => {
+        if (!inventory) {
+          return res.status(404).json({ message: `Inventory with ID ${inventoryId} not found` });
+        }
+        res.status(200).json(inventory);
+      })
+      .catch((err) => res.status(400).json({ error: `Error retrieving Inventory: ${err}` }));
+  };
+  
+  module.exports = {
+    getAllInventory,
+    getSingleInventory,
+  };
+  
