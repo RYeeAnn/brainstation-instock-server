@@ -5,13 +5,13 @@ const inventoryController = require("../controllers/inventoryController");
 router
   .route("/")
   .get(inventoryController.getAllInventory)
-  .post((req, res) => {
-    console.log("Post on inventory");
-    res.send("Post on inventory");
-  })
 
 router
   .route("/:id")
   .get(inventoryController.getSingleInventory);
+
+router
+  .route("/warehouse/:warehouse_id")
+  .get(inventoryController.getInventoriesForWarehouse);
 
 module.exports = router;

@@ -10,6 +10,9 @@ const getAllInventory = (req, res) => {
       );
   };
 
+
+
+
   const getSingleInventory = (req, res) => {
     const inventoryId = req.params.id;
   
@@ -24,9 +27,28 @@ const getAllInventory = (req, res) => {
       })
       .catch((err) => res.status(400).json({ error: `Error retrieving Inventory: ${err}` }));
   };
+
+
+
+
+  const getInventoriesForWarehouse = (req, res) => {
+    const warehouseId = req.params.warehouse_id;
+  
+    knex("inventories")
+      .where({ warehouse_id: warehouseId })
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) =>
+        res.status(400).send(`Error retrieving Inventories for Warehouse: ${err}`)
+      );
+  };
+  
   
   module.exports = {
     getAllInventory,
     getSingleInventory,
+    getInventoriesForWarehouse
+    
   };
   
