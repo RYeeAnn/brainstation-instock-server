@@ -9,12 +9,12 @@ router
 
 router
   .route("/:id")
-  // .get(warehouseController.getSingleWarehouse)
+  .get(warehouseController.getSingleWarehouse)
   // .post((req, res) => {
   //   console.log("Post single warehouse");
   //   res.send("Post single warehouse");
   // })
-  
+
   .delete(warehouseController.removeWarehouse);
 
 module.exports = router;
