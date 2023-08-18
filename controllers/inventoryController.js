@@ -2,7 +2,7 @@ const knex = require("knex")(require("../knexfile.js"));
 
 const getAllInventory = (req, res) => {
   knex("inventories")
-    .join("warehouses", "warehouse_id", "warehouses.id")
+    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
     .then((data) => {
       res.status(200).json(data);
     })
@@ -13,7 +13,8 @@ const getSingleInventory = (req, res) => {
   const inventoryId = req.params.id;
 
   knex("inventories")
-    .where("id", inventoryId)
+    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+    .where("inventories.id", inventoryId)
     .first()
     .then((inventory) => {
       if (!inventory) {
