@@ -15,7 +15,10 @@ router
   //   res.send("Post single warehouse");
   // })
   .put(warehouseController.updateWarehouse)
-
   .delete(warehouseController.removeWarehouse);
+
+router
+  .route("/:id/inventories")
+  .get(warehouseController.getInventoriesForWarehouse);
 
 module.exports = router;
