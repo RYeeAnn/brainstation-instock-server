@@ -2,7 +2,7 @@ const knex = require("knex")(require("../knexfile.js"));
 
 const getAllInventory = (req, res) => {
   knex("inventories")
-    .join("warehouses", "inventories.warehouse_id", "warehouses.id")
+    .join("warehouses", "inventories.id", "warehouses.id")
     .then((data) => {
       res.status(200).json(data);
     })
