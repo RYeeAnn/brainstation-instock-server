@@ -29,21 +29,65 @@ const getSingleInventory = (req, res) => {
     );
 };
 
-const getInventoriesForWarehouse = (req, res) => {
-  const warehouseId = req.params.warehouse_id;
+// const getInventoriesForWarehouse = (req, res) => {
+//   const warehouseId = req.params.warehouse_id;
 
+//   knex("inventories")
+//     .where({ warehouse_id: warehouseId })
+//     .then((data) => {
+//       res.status(200).json(data);
+//     })
+//     .catch((err) =>
+//       res.status(400).send(`Error retrieving Inventories for Warehouse: ${err}`)
+//     );
+// };
+
+const updateInventory = (req, res) => {
   knex("inventories")
-    .where({ warehouse_id: warehouseId })
-    .then((data) => {
-      res.status(200).json(data);
+    .where({ id: req.params.id })
+    .update(req.body)
+    .then(() => {
+      return knex("inventories").where({
+        id: req.params.id,
+      });
     })
-    .catch((err) =>
-      res.status(400).send(`Error retrieving Inventories for Warehouse: ${err}`)
-    );
+    .then((result) => {
+      if (result === 0) {
+        return res.status(400).json({
+          message: `Inventory with ID: ${req.params.id} to be deleted not found.`,
+        });
+      }
+      res.status(200).json(result[0]);
+    })
+    .catch(() => {
+      res.status(500).json({
+        message: `Unable to update inventory with ID: ${req.params.id}`,
+      });
+    });
+};
+
+const deleteInventory = (req, res) => {
+  knex("inventories")
+    .where({ id: req.params.id })
+    .del()
+    .then((result) => {
+      if (result === 0) {
+        return res.status(404).json({
+          message: `Inventory with ID: ${req.params.id} to be deleted not found.`,
+        });
+      }
+      // no content response
+      res.status(204).send();
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Unable to delete inventory" });
+    });
 };
 
 module.exports = {
   getAllInventory,
   getSingleInventory,
-  getInventoriesForWarehouse,
+  // getInventoriesForWarehouse,
+  updateInventory,
+  deleteInventory,
 };
