@@ -14,6 +14,7 @@ router
   //   console.log("Post single warehouse");
   //   res.send("Post single warehouse");
   // })
+  .put(warehouseController.updateWarehouse)
 
   .delete(warehouseController.removeWarehouse);
 
