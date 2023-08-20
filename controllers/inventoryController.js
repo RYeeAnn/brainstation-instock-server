@@ -43,23 +43,55 @@ const getSingleInventory = (req, res) => {
 // };
 
 const createInventory = (req, res) => {
-  knex("inventories")
-    .insert({
-      warehouse_id: req.body.warehouse_id,
-      item_name: req.body.item_name,
-      description: req.body.description,
-      category: req.body.category,
-      status: req.body.status,
-      quantity: req.body.quantity,
-    })
-    .then(() => {
-      res.status(201).json({ message: "Inventory created successfully" });
-    })
-    .catch((error) => {
-      // console.error("Error creating inventory:", error);
-      res
-        .status(400)
-        .json({ error: "An error occurred while creating the inventory" });
+  const valid = true;
+
+  // validation to accept only numerical values for quantity field
+
+  if (
+    !req.body.warehouse_id ||
+    !req.body.item_name ||
+    !req.body.description ||
+    !req.body.category ||
+    !req.body.status ||
+    !req.body.quantity
+  ) {
+    return res.status(400).json({ error: "All fields should be filled" });
+  }
+
+  if (isNaN(req.body.quantity) || req.body.quantity <= 0) {
+    return res.status(400).json({ error: "Invalid quantity value" });
+  }
+
+  // validation to check for warehouse id in warehouses table
+
+  knex("warehouses")
+    .where({ id: req.body.warehouse_id })
+    .then((result) => {
+      if (result.length === 0) {
+        valid = false;
+        return res.status(400).json({
+          message: "Warehouse ID value does not exist in the warehouses table",
+        });
+      } else {
+        knex("inventories")
+          .insert({
+            warehouse_id: req.body.warehouse_id,
+            item_name: req.body.item_name,
+            description: req.body.description,
+            category: req.body.category,
+            status: req.body.status,
+            quantity: req.body.quantity,
+          })
+          .then(() => {
+            res.status(201).json({ message: "Inventory created successfully" });
+          })
+          .catch((error) => {
+            // console.error("Error creating inventory:", error);
+            res.status(400).json({
+              error: "An error occurred while creating the inventory",
+            });
+          });
+      }
     });
 };
 
@@ -73,8 +105,8 @@ const updateInventory = (req, res) => {
       });
     })
     .then((result) => {
-      if (result === 0) {
-        return res.status(400).json({
+      if (result.length === 0) {
+        return res.status(404).json({
           message: `Inventory with ID: ${req.params.id} to be updated not found.`,
         });
       }
