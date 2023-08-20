@@ -42,6 +42,27 @@ const getSingleInventory = (req, res) => {
 //     );
 // };
 
+const createInventory = (req, res) => {
+  knex("inventories")
+    .insert({
+      warehouse_id: req.body.warehouse_id,
+      item_name: req.body.item_name,
+      description: req.body.description,
+      category: req.body.category,
+      status: req.body.status,
+      quantity: req.body.quantity,
+    })
+    .then(() => {
+      res.status(201).json({ message: "Inventory created successfully" });
+    })
+    .catch((error) => {
+      // console.error("Error creating inventory:", error);
+      res
+        .status(400)
+        .json({ error: "An error occurred while creating the inventory" });
+    });
+};
+
 const updateInventory = (req, res) => {
   knex("inventories")
     .where({ id: req.params.id })
@@ -54,7 +75,7 @@ const updateInventory = (req, res) => {
     .then((result) => {
       if (result === 0) {
         return res.status(400).json({
-          message: `Inventory with ID: ${req.params.id} to be deleted not found.`,
+          message: `Inventory with ID: ${req.params.id} to be updated not found.`,
         });
       }
       res.status(200).json(result[0]);
@@ -88,6 +109,7 @@ module.exports = {
   getAllInventory,
   getSingleInventory,
   // getInventoriesForWarehouse,
+  createInventory,
   updateInventory,
   deleteInventory,
 };
