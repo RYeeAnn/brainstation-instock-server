@@ -26,6 +26,21 @@ const getSingleWarehouse = (req, res) => {
 };
 
 const createWarehouse = (req, res) => {
+  // validation to check for all fields in req.body
+
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res.status(400).json({ error: "All fields should be filled" });
+  }
+
   knex("warehouses")
     .insert({
       warehouse_name: req.body.warehouse_name,
