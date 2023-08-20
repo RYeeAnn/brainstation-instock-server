@@ -45,7 +45,7 @@ const getSingleInventory = (req, res) => {
 const createInventory = (req, res) => {
   const valid = true;
 
-  // validation to accept only numerical values for quantity field
+  // validation to check for all fields in req.body
 
   if (
     !req.body.warehouse_id ||
@@ -57,6 +57,8 @@ const createInventory = (req, res) => {
   ) {
     return res.status(400).json({ error: "All fields should be filled" });
   }
+
+  // validation to accept only numerical values for quantity field
 
   if (isNaN(req.body.quantity) || req.body.quantity <= 0) {
     return res.status(400).json({ error: "Invalid quantity value" });
