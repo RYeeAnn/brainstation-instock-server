@@ -26,6 +26,21 @@ const getSingleWarehouse = (req, res) => {
 };
 
 const createWarehouse = (req, res) => {
+  // validation to check for all fields in req.body
+
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res.status(400).json({ error: "All fields should be filled" });
+  }
+
   knex("warehouses")
     .insert({
       warehouse_name: req.body.warehouse_name,
@@ -67,6 +82,21 @@ const removeWarehouse = (req, res) => {
 };
 
 const updateWarehouse = (req, res) => {
+  // validation to check for all fields in req.body
+
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res.status(400).json({ error: "All fields should be filled" });
+  }
+
   knex("warehouses")
     .where({ id: req.params.id })
     .update(req.body)
@@ -77,7 +107,7 @@ const updateWarehouse = (req, res) => {
     })
     .then((result) => {
       if (result === 0) {
-        return res.status(400).json({
+        return res.status(404).json({
           message: `Warehouse with ID: ${req.params.id} to be deleted not found.`,
         });
       }
