@@ -60,7 +60,7 @@ const createInventory = (req, res) => {
 
   // validation to accept only numerical values for quantity field
 
-  if (isNaN(req.body.quantity) || req.body.quantity <= 0) {
+  if (isNaN(req.body.quantity) || req.body.quantity < 0) {
     return res.status(400).json({ error: "Invalid quantity value" });
   }
 
@@ -115,7 +115,7 @@ const updateInventory = (req, res) => {
 
   // validation to accept only numerical values for quantity field
 
-  if (isNaN(req.body.quantity) || req.body.quantity <= 0) {
+  if (isNaN(req.body.quantity) || req.body.quantity < 0) {
     return res.status(400).json({ error: "Invalid quantity value" });
   }
 
